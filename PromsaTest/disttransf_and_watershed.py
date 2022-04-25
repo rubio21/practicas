@@ -5,7 +5,7 @@ from matplotlib import cm
 import matplotlib.colors as mcolors
 
 img = cv2.resize(cv2.imread('arros02.bmp'),(512,512))
-cv2.imshow('img', img)
+cv2.imshow('src', img)
 
 gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 ret, thresh = cv2.threshold(gray,0,255,cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
@@ -42,7 +42,7 @@ markers[unknown==255] = 0
 
 markers = cv2.watershed(img, markers)
 img[markers == -1] = [255,0,0]
-norm_arr =  (markers - np.min(markers)) / (np.max(markers) - np.min(markers))
+norm_arr = (markers - np.min(markers)) / (np.max(markers) - np.min(markers))
 cv2.imshow('norm_arr', norm_arr)
 cv2.imshow('img', img)
 cv2.waitKey()
