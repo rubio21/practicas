@@ -74,7 +74,6 @@ def face_recognition(image, embeddings, face_recognizer):
     # Sorting from least to most distance of saved embeddings
     detected = {k: v for k, v in sorted(detected.items(), key=lambda item: item[1])}
     detected = list(detected.keys())
-
     return detected
 
 # Function to be called in the main
@@ -82,9 +81,7 @@ def main_program(image_or_video_path=None, show=False, dataset="./FUERA/"):
     fr = FaceRecognition()
     # Dataset embeddings
     embeddings = fr.load_face_embeddings(dataset)
-    waitkey_variable = 1
-    image_flip = False
-    # If input is an image or video
+
     for i in os.listdir(image_or_video_path):
         print("Using path: ", i)
         for j in os.listdir(image_or_video_path + i):

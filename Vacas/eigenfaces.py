@@ -5,7 +5,7 @@ import imutils
 import copy
 import numpy as np
 
-carpeta = 'vacas_clasificadas2/'
+carpeta = 'images/'
 size_images = (250, 250)
 def train_model():
     peopleList = os.listdir(carpeta)
@@ -23,8 +23,8 @@ def train_model():
     # face_recognizer = cv2.face.LBPHFaceRecognizer_create()
     face_recognizer = cv2.face.EigenFaceRecognizer_create()
     face_recognizer.train(facesData, np.array(labels))
-    # face_recognizer.write('LBPH_model.xml')
-    face_recognizer.write('eigen_model.xml')
+    face_recognizer.write('LBPH_model.xml')
+    # face_recognizer.write('eigen_model.xml')
 
 
 
@@ -32,8 +32,8 @@ train_model()
 imagePaths = os.listdir(carpeta)
 # face_recognizer = cv2.face.LBPHFaceRecognizer_create()
 face_recognizer = cv2.face.EigenFaceRecognizer_create()
-# face_recognizer.read('LBPH_model.xml')
-face_recognizer.read('eigen_model.xml')
+face_recognizer.read('LBPH_model.xml')
+# face_recognizer.read('eigen_model.xml')
 for i in os.listdir('FUERA'):
     img = cv2.imread('FUERA/' + i)
     resized = cv2.resize(img, size_images)

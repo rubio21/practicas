@@ -16,7 +16,7 @@ def draw_line(event,x,y,flags,param):
             cv2.line(opening, ar[0], ar[1], 100, 5)
             ar.clear()
 
-img = cv2.resize(cv2.imread('Arros50mm.png'),(512,512))
+img = cv2.resize(cv2.imread('arros.bmp'),(512,512))
 cv2.imshow('src', img)
 
 gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -40,16 +40,16 @@ ret, sure_fg = cv2.threshold(dist_transform, 0.4*dist_transform.max(),255,0)
 
 
 
-# ar=[]
-# cv2.namedWindow('click')
-# cv2.setMouseCallback('click',draw_line)
-# while(1):
-#     cv2.imshow('click',opening)
-#     k = cv2.waitKey(20) & 0xFF
-#     if k == 27:
-#         break
-#
-# sure_fg = np.where(opening != 100, 0, 255).astype(np.uint8)
+ar=[]
+cv2.namedWindow('click')
+cv2.setMouseCallback('click',draw_line)
+while(1):
+    cv2.imshow('click',opening)
+    k = cv2.waitKey(20) & 0xFF
+    if k == 27:
+        break
+
+sure_fg = np.where(opening != 100, 0, 255).astype(np.uint8)
 cv2.imshow('sure_fg', sure_fg)
 # cv2.waitKey()
 
