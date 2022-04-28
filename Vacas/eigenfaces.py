@@ -20,15 +20,20 @@ def train_model():
             resized = cv2.resize(img, size_images, interpolation=cv2.INTER_AREA)
             facesData.append(resized)
         label = label + 1
+    # face_recognizer = cv2.face.LBPHFaceRecognizer_create()
     face_recognizer = cv2.face.EigenFaceRecognizer_create()
     face_recognizer.train(facesData, np.array(labels))
-    face_recognizer.write(carpeta + 'eigenfaces_model.xml')
+    # face_recognizer.write('LBPH_model.xml')
+    face_recognizer.write('eigen_model.xml')
 
 
-# train_model()
+
+train_model()
 imagePaths = os.listdir(carpeta)
+# face_recognizer = cv2.face.LBPHFaceRecognizer_create()
 face_recognizer = cv2.face.EigenFaceRecognizer_create()
-face_recognizer.read(carpeta + 'eigenfaces_model.xml')
+# face_recognizer.read('LBPH_model.xml')
+face_recognizer.read('eigen_model.xml')
 for i in os.listdir('FUERA'):
     img = cv2.imread('FUERA/' + i)
     resized = cv2.resize(img, size_images)
