@@ -4,50 +4,9 @@ import argparse
 import numpy as np
 import tensorflow.compat.v1 as tf
 import copy
-# import Jetson.GPIO as GPIO
-
 
 tf.disable_eager_execution()
-# led_pin=[7,11]
-verification_threshold = 100
-led_state = False
 image_size = 160
-
-class FaceDetection:
-    def __init__(self):
-        self.load_face_detection()
-
-    # OpenCV DNN Face Detector: the function takes the directory of the frozen .pb model and a .pbtxt file.
-    def load_face_detection(self):
-        model_path = "./Models/FaceDetection/opencv_face_detector_uint8.pb"
-        model_pbtxt = "./Models/FaceDetection/opencv_face_detector.pbtxt"
-        # Serialised model is loaded from disk
-        self.net = cv2.dnn.readNetFromTensorflow(model_path, model_pbtxt)
-
-    # Face detection in an image
-    def detect_faces(self, image):
-        height, width, channels = image.shape
-        # The input image is loaded and an input blob is constructed for the image,
-        # resizing it to a fixed value of 300x300 pixels and normalising it.
-        blob = cv2.dnn.blobFromImage(image, 1.0, (300, 300), [104, 117, 123], False, False)
-        # The blob is passed through the network and the detections are obtained.
-        self.net.setInput(blob)
-        detections = self.net.forward()
-        faces = []
-        # Loop over detections
-        for i in range(detections.shape[2]):
-            # The confidence associated with the prediction is extracted.
-            confidence = detections[0, 0, i, 2]
-            # Weak detections are filtered out, checking that the confidence is higher than the threshold.
-            if confidence > 0.5:
-                # The coordinates delimiting the rectangle of the face are calculated.
-                x1 = int(detections[0, 0, i, 3] * width)
-                y1 = int(detections[0, 0, i, 4] * height)
-                x2 = int(detections[0, 0, i, 5] * width)
-                y2 = int(detections[0, 0, i, 6] * height)
-                faces.append([x1, y1, x2 - x1, y2 - y1])
-        return faces
-
 
 class FaceRecognition:
     def __init__(self):
@@ -86,7 +45,7 @@ class FaceRecognition:
         return np.squeeze(emb_array)
 
     # Dataset image processing. Image transformation to 128-feature vector and saving in an embedding dictionary.
-    def load_face_embeddings(self, image_dir, face_detector):
+    def load_face_embeddings(self, image_dir):
         embeddings = {}
         # Loop through all images in the database
         for file in os.listdir(image_dir):
@@ -102,7 +61,7 @@ class FaceRecognition:
         return diff
 
 # Face recognition
-def face_recognition(image, embeddings, face_detector, face_recognizer, show=False):
+def face_recognition(image, embeddings, face_recognizer):
     # Transformation to embedding
     user_embed = face_recognizer.img_to_embedding(cv2.resize(image, (160, 160)), image_size)
     detected = {}
@@ -118,38 +77,20 @@ def face_recognition(image, embeddings, face_detector, face_recognizer, show=Fal
 
     return detected
 
-
-# def initialise_led():
-# GPIO.setmode(GPIO.board)
-# GPIO.setup(led_pin, GPIO.OUT)
-# # Red LED on and green LED off
-# GPIO.output(led_pin, (GPIO.HIGH, GPIO.HIGH))
-
-# def change_led(green_state):
-#     if (led_state and green_state):
-#         # Green LED off
-#         GPIO.output(led_pin, (GPIO.HIGH, GPIO.HIGH))
-#         led_state=False
-#     else:
-#         # Green LED on
-#         GPIO.output(led_pin, (GPIO.LOW, GPIO.LOW))
-#         led_state=True
-
-
 # Function to be called in the main
 def main_program(image_or_video_path=None, show=False, dataset="./FUERA/"):
-    fd = FaceDetection()
     fr = FaceRecognition()
     # Dataset embeddings
-    embeddings = fr.load_face_embeddings(dataset, fd)
+    embeddings = fr.load_face_embeddings(dataset)
     waitkey_variable = 1
     image_flip = False
     # If input is an image or video
-    if image_or_video_path:
-        print("Using path: ", image_or_video_path)
-        image = cv2.imread(image_or_video_path)
-        print(face_recognition(image, embeddings, fd, fr, show))
-
+    for i in os.listdir(image_or_video_path):
+        print("Using path: ", i)
+        for j in os.listdir(image_or_video_path + i):
+            image = cv2.imread(image_or_video_path + i + '/' +j)
+            print(face_recognition(image, embeddings, fr))
+        print('-----------------------')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -157,5 +98,4 @@ if __name__ == '__main__':
     parser.add_argument("--show", action="store_true", help="Show mage or video")
     parser.add_argument('--dataset', type=str, default="./FUERA/", help='Path to dataset')
     args = parser.parse_args()
-
     main_program(args.input, args.show, args.dataset)
