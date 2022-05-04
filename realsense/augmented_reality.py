@@ -3,10 +3,10 @@ import cv2 as cv
 import matplotlib.pyplot as plt
 
 # Read both images and convert to grayscale
-img1 = cv.imread('left_img.png', cv.IMREAD_GRAYSCALE)
-img2 = cv.imread('right_img.png', cv.IMREAD_GRAYSCALE)
-# img1 = cv.imread('stereo/stereoLeft/imageL0.jpg', cv.IMREAD_GRAYSCALE)
-# img2 = cv.imread('stereo/stereoRight/imageR0.jpg', cv.IMREAD_GRAYSCALE)
+# img1 = cv.imread('left_img.png', cv.IMREAD_GRAYSCALE)
+# img2 = cv.imread('right_img.png', cv.IMREAD_GRAYSCALE)
+img1 = cv.imread('stereo/stereoLeft/imageL0.jpg', cv.IMREAD_GRAYSCALE)
+img2 = cv.imread('stereo/stereoRight/imageR0.jpg', cv.IMREAD_GRAYSCALE)
 # ------------------------------------------------------------
 # PREPROCESSING
 
@@ -182,4 +182,4 @@ cv.imwrite("disparity_SGBM_norm.png", disparity_SGBM)
 
 cv.waitKey()
 cv.destroyAllWindows()
-# ---------------------------------------------------------------# ---------------------------------------------------------------
+# ---------------------------------------------------------------
