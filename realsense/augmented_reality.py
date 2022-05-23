@@ -206,12 +206,9 @@ for ii in range(9):
         P1=8 * 1 * block_size * block_size,
         P2=32 * 1 * block_size * block_size,
     )
-
-    img1_rectified=cv.resize(img1_rectified, (640,360))
-    img2_rectified=cv.resize(img2_rectified, (640,360))
     disparity_SGBM = stereo.compute(img1_rectified, img2_rectified)
-    disparity_SGBM = cv.normalize(disparity_SGBM, disparity_SGBM, alpha=255, beta=0, norm_type=cv.NORM_MINMAX)
-    disparity_SGBM = np.uint8(disparity_SGBM)
+    # disparity_SGBM = cv.normalize(disparity_SGBM, disparity_SGBM, alpha=255, beta=0, norm_type=cv.NORM_MINMAX)
+    # disparity_SGBM = np.uint8(disparity_SGBM)
 
     h, w = img1_rectified.shape[:2]
     f = 0.8 * w  # guess for focal length
