@@ -1,19 +1,10 @@
-
-# Useful links
-# http://www.pygame.org/wiki/OBJFileLoader
-# https://rdmilligan.wordpress.com/2015/10/15/augmented-reality-using-opencv-opengl-and-blender/
-# https://clara.io/library
-
-# TODO -> Implement command line arguments (scale, model and object to be projected)
-#      -> Refactor and organize code (proper funcition definition and separation, classes, error handling...)
-
 import argparse
-
 import cv2
 import numpy as np
 import math
 import os
 from objloader_simple import *
+import pyrealsense2 as rs
 
 # Minimum number of matches that have to be found
 # to consider the recognition valid
@@ -27,7 +18,9 @@ def main():
     """
     homography = None 
     # matrix of camera parameters (made up but works quite well for me) 
-    camera_parameters = np.array([[800, 0, 320], [0, 800, 240], [0, 0, 1]])
+    # camera_parameters = np.array([[800, 0, 320], [0, 800, 240], [0, 0, 1]])
+    camera_parameters = np.array([[2030, 0, 360], [0, 1920, 640], [0, 0, 1]])
+
     # create ORB keypoint detector
     orb = cv2.ORB_create()
     # create BFMatcher object based on hamming distance  
@@ -40,14 +33,27 @@ def main():
     # Load 3D model from OBJ file
     obj = OBJ(os.path.join(dir_name, '../models/fox.obj'), swapyz=True)
     # init video capture
-    cap = cv2.VideoCapture(0)
+    # cap = cv2.VideoCapture(0)
+    pipeline=rs.pipeline()
+    realsense_cfg=rs.config()
+    realsense_cfg.enable_stream(rs.stream.color, 1280,720,rs.format.rgb8, 6)
+    pipeline.start(realsense_cfg)
+
+    print('Test data source...')
+    try:
+        np.asanyarray(pipeline.wait_for_frames().get_color_frame().get_data())
+    except:
+        raise Exception("Can't get rgb")
 
     while True:
         # read the current frame
-        ret, frame = cap.read()
-        if not ret:
-            print("Unable to capture video")
-            return 
+        # ret, frame = cap.read()
+        # if not ret:
+        #     print("Unable to capture video")
+        #     return
+        frames=pipeline.wait_for_frames()
+        frame=np.asanyarray(frames.get_color_frame().get_data())
+
         # find and draw the keypoints of the frame
         kp_frame, des_frame = orb.detectAndCompute(frame, None)
         # match frame descriptors with model descriptors
@@ -92,7 +98,7 @@ def main():
         else:
             print("Not enough matches found - %d/%d" % (len(matches), MIN_MATCHES))
 
-    cap.release()
+    # cap.release()
     cv2.destroyAllWindows()
     return 0
 
