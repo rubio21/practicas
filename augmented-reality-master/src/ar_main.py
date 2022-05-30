@@ -25,13 +25,12 @@ def main():
     orb = cv2.ORB_create()
     # create BFMatcher object based on hamming distance  
     bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
-    # load the reference surface that will be searched in the video stream
-    dir_name = os.getcwd()
-    model = cv2.imread(os.path.join(dir_name, '../reference/model.jpg'), 0)
+
+    model = cv2.imread(os.path.join('../reference/model.jpg'), 0)
     # Compute model keypoints and its descriptors
     kp_model, des_model = orb.detectAndCompute(model, None)
     # Load 3D model from OBJ file
-    obj = OBJ(os.path.join(dir_name, '../models/fox.obj'), swapyz=True)
+    obj = OBJ(os.path.join('../models/fox.obj'), swapyz=True)
     # init video capture
     # cap = cv2.VideoCapture(0)
     pipeline=rs.pipeline()
@@ -44,7 +43,8 @@ def main():
         np.asanyarray(pipeline.wait_for_frames().get_color_frame().get_data())
     except:
         raise Exception("Can't get rgb")
-
+    cv2.imshow('aa',model)
+    cv2.waitKey()
     while True:
         # read the current frame
         # ret, frame = cap.read()
