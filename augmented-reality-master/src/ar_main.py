@@ -19,14 +19,13 @@ def main():
     homography = None 
     # matrix of camera parameters (made up but works quite well for me) 
     # camera_parameters = np.array([[800, 0, 320], [0, 800, 240], [0, 0, 1]])
-    camera_parameters = np.array([[2030, 0, 360], [0, 1920, 640], [0, 0, 1]])
-
+    camera_parameters = np.array([[800, 0, 320], [0, 800, 240], [0, 0, 1]])
     # create ORB keypoint detector
     orb = cv2.ORB_create()
     # create BFMatcher object based on hamming distance  
     bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
 
-    model = cv2.imread(os.path.join('../reference/model.jpg'), 0)
+    model = cv2.imread(os.path.join('../reference/b.jpg'), 0)
     # Compute model keypoints and its descriptors
     kp_model, des_model = orb.detectAndCompute(model, None)
     # Load 3D model from OBJ file
