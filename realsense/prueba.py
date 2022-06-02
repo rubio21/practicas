@@ -75,9 +75,9 @@ while True:
         ret, rvecs, tvecs = cv.solvePnP(objp, corners2, mtx, dist)
 
         # Project 3D points to image plane
-        imgpts, jac = cv.projectPoints(axisBoxes, rvecs, tvecs, mtx, dist)
+        imgpts, jac = cv.projectPoints(axis, rvecs, tvecs, mtx, dist)
 
-        frame = drawBoxes(frame,corners2,imgpts)
+        frame = draw(frame,corners2,imgpts)
         cv.imshow('img',frame)
         k = cv.waitKey()
 
