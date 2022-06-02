@@ -44,8 +44,8 @@ criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 objp = np.zeros((8*6,3), np.float32)
 objp[:,:2] = np.mgrid[0:8,0:6].T.reshape(-1,2)
 axis = np.float32([[3,0,0], [0,3,0], [0,0,-3]]).reshape(-1,3)
-axisBoxes = np.float32([[0,0,0], [0,3,0], [3,3,0], [3,0,0],
-                   [0,0,-3],[0,3,-3],[3,3,-3],[3,0,-3] ])
+axisBoxes = np.float32([[0,0,0], [0,1,0], [1,1,0], [1,0,0],
+                   [0,0,-1],[0,1,-1],[1,1,-1],[1,0,-1] ])
 
 pipeline=rs.pipeline()
 realsense_cfg=rs.config()
