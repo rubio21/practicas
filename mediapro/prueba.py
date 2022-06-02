@@ -5,7 +5,7 @@ import math
 
 
 imgname = 'cocacola-logo.jpg'        # query image (small object)
-imgname2 = 'a.png' # train image (large scene)
+imgname2 = 'a2.png' # train image (large scene)
 MIN_MATCHES = 10
 
 def draw(img, corners, imgpts):
@@ -82,7 +82,7 @@ if len(matches) > MIN_MATCHES:
     frame = cv2.polylines(frame, [np.int32(dst)], True, 255, 3, cv2.LINE_AA)
 
     projection = projection_matrix(camera_parameters, homography)
-    frame = render(frame, obj, projection, model, False)
+    # frame = render(frame, obj, projection, model, False)
 
 cv2.imshow('aa',frame)
 cv2.imwrite('found.png', frame)

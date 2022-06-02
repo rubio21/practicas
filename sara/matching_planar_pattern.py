@@ -44,7 +44,8 @@ def plannar_matching(img1,img2, show = True):
     # #match keypoints
     # print(des1)
     # matches = flann.knnMatch(des1,des2,k=2)
-    
+
+    # Create brute force matcher object
     bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
     
     # Match descriptors.
