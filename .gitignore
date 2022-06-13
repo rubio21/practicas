@@ -1,0 +1,5 @@
+# Default ignored files
+/.idea
+/norfair/detectron2/yolov5ml.pt
+/Vacas/maskrcnn/cow_R50-FPN.yaml
+/Vacas/maskrcnn/cow_zenith_0.pth
