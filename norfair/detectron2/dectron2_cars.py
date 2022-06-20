@@ -18,7 +18,7 @@ def centroid_distance(detection, tracked_object):
 
 
 # Norfair
-video = Video(input_path="./video.mp4")
+video = Video(input_path="./trafico0.mp4")
 tracker = Tracker(distance_function=centroid_distance, distance_threshold=20)
 
 for frame in video:

@@ -5,7 +5,7 @@ import math
 
 
 imgname = 'cocacola-logo.jpg'        # query image (small object)
-imgname2 = 'a2.png' # train image (large scene)
+imgname2 = 'thresh.png' # train image (large scene)
 MIN_MATCHES = 10
 
 def draw(img, corners, imgpts):
