@@ -14,7 +14,7 @@ from norfair import Detection, Tracker, Video, draw_tracked_objects
 
 cfg = get_cfg()
 cfg.merge_from_file("cow_R50-FPN.yaml")
-cfg.MODEL.WEIGHTS = "cow_zenith_0.pth"
+cfg.MODEL.WEIGHTS = "model_final.pth"
 cfg.MODEL.RETINANET.SCORE_THRESH_TEST = 0.5
 cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5
 cfg.MODEL.PANOPTIC_FPN.COMBINE.INSTANCES_CONFIDENCE_THRESH = 0.5
